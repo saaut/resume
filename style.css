@@ -14,7 +14,9 @@ h1 {
 }
 
 h2 {
+    color:purple;
     font-size: 1.5rem;
+    font-weight: bold;
     padding-bottom: 1em;
 }
 main {
@@ -23,14 +25,19 @@ main {
     margin-top: 3rem;
 }
 header {
-    text-align: center;
+    text-align: left;
     margin: auto 2rem;
+    
 }
-
+#header {
+    border-top: 8px solid purple; /* 보라색 선 추가 */
+}
 section {
     margin: auto 1rem 4rem 2rem;
 }
-
+b{
+    color: purple;
+}
 p {
     margin: 0.2rem auto;
 }
