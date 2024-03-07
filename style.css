@@ -19,25 +19,28 @@ h2 {
     font-weight: bold;
     padding-bottom: 1em;
 }
+
 main {
-    display: grid;    /* css grid 사용 */
-    grid-template-columns: 40% 60%; /* 왼쪽 40%, 오른쪽 60% */
     margin-top: 3rem;
 }
+
 header {
     text-align: left;
     margin: auto 2rem;
-    
 }
+
 #header {
     border-top: 8px solid purple; /* 보라색 선 추가 */
 }
+
 section {
-    margin: auto 1rem 4rem 2rem;
+    margin-bottom: 2rem; /* 섹션 아래 여백 추가 */
 }
+
 b{
     color: purple;
 }
+
 p {
     margin: 0.2rem auto;
 }
@@ -56,12 +59,31 @@ h1, h2 {
 i {
     margin-right: 0.5rem;    /* SNS 아이콘 오른쪽 여백 */
 }
-#mainLeft {
-    border-right: 1px solid lightgray;
-    width: 70%;
+
+.images-container {
+    display: grid; /* 그리드 레이아웃 사용 */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 최소 250px 너비의 타일로 자동 조절 */
+    gap: 1rem; /* 그리드 아이템 간격 */
+}
+
+.images-container img {
+    width: 100%; /* 이미지 너비를 그리드 아이템에 맞게 설정 */
+    height: auto; /* 이미지 높이 자동 조절 */
+    display: block; /* 이미지를 블록 요소로 표시하여 수직으로 정렬 */
 }
 .code-block {
     background-color: #f4f4f4;
     padding: 10px;
     border-radius: 5px;
+}
+.contact-education-section {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Align items with space between them */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+}
+.contact-education-section h2 {
+    flex-basis: 100%; /* Take full width of the flex container */
+}
+.contact-education-section p {
+    flex-basis: calc(50% - 0.5em); /* Each paragraph takes half the width with some spacing */
 }
