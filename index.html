@@ -142,6 +142,59 @@
               <h4>(2) API 디자인</h4>
               <p>API 디자인 이미지를 여기에 추가하세요.</p>
           </section>
+          <section>
+            <h3>트러블 슈팅</h3>
+            <h5>문제</h5>
+            <p>간편함을 위해 ajax() jQuery 함수를 이용해 비동기 HTTP 요청을 보내려고 했으나, 액세스가 승인되지 않는 인증 문제가 있었습니다..
+              {"readyState":4,"responseText":"","status":401,"statusText":"error"}
+              오류 메세지를 통해 Http요청은 정상적으로 전송되었으나, status 401로 권한이 없어 정상적으로 로그인된 상태인데도 사용자 인증 정보가 유효하지 않음을 나타냅니다.  
+              
+              <h5>해결</h5> JQuery 함수를 이용하는 대신 웹 브라우저의 기본 fetch API를 사용하여 직접 Http 요청을 보내는 함수를 만들어 해결할 수 있었습니다.
+              <pre class="code-block"><code>function httpRequest(method, url, body, success, fail) {
+                alert("success");
+            
+                fetch(url, {
+                    method: method,
+                    headers: { // 로컬 스토리지에서 액세스 토큰 값을 가져와 헤더에 추가
+                        Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: body,
+                }).then(response => {
+                    if (response.status === 200 || response.status === 201) {
+                        return success();
+                    }
+                    const refresh_token = getCookie('refresh_token');
+                    if (response.status === 401 && refresh_token) {
+                        fetch('/api/token', {
+                            method: 'POST',
+                            headers: {
+                                Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                refreshToken: getCookie('refresh_token'),
+                            }),
+                        })
+                            .then(res => {
+                                if (res.ok) {
+                                    return res.json();
+                                }
+                            })
+                            .then(result => { // 재발급이 성공하면 로컬 스토리지값을 새로운 액세스 토큰으로 교체
+                                localStorage.setItem('access_token', result.accessToken);
+                                httpRequest(method, url, body, success, fail);
+                            })
+                            .catch(error => fail());
+                    } else {
+                        return fail();
+                    }
+                });
+            }</code></pre>
+              함수를 이용하여 코드를 축소하고 간편화했으며, 인증 정보 문제가 발생하지 않았습니다.
+              <h5>알게된 것</h5>
+              이 경험을 통해 ajax와 fetch API 간에 인증 정보 처리 방식이 다르다는 것을 배웠고, fetch API를 사용하면 헤더 및 요청 옵션을 보다 유연하고 세밀하게 제어할 수 있음을 깨달았습니다.</p>
+          </section>
         </article>
       </main>
 </body>
