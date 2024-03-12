@@ -135,11 +135,11 @@ i {
     bottom: 20px;
     right: 20px;
     z-index: 99;
-    font-size: 18px;
+    font-size: 25px;
     border: none;
     outline: none;
-    background-color:purple;
-    color: #fff;
+    background-color:white;
+    color: purple;
     cursor: pointer;
     padding: 10px;
     border-radius: 50%;
